@@ -81,7 +81,7 @@ def create_searching_bar_chart(step_data: Dict[str, Any], algo_type: str = "Line
             marker_line_width=1.5,
             text=arr,
             textposition="outside",
-            textfont=dict(size=14, color="#0F172A", family="Inter, sans-serif"),
+            textfont=dict(size=14, color="#0F172A"),
             hovertemplate="Index: %{x}<br>Value: %{y}<extra></extra>",
         )
     )
@@ -101,7 +101,7 @@ def create_searching_bar_chart(step_data: Dict[str, Any], algo_type: str = "Line
                     text="<b>LOW ▲</b>",
                     showarrow=False,
                     yshift=-25,
-                    font=dict(color="#2563EB", size=12, family="Inter, sans-serif"),
+                    font=dict(color="#2563EB", size=12),
                 )
             )
         if high is not None and 0 <= high < n:
@@ -112,7 +112,7 @@ def create_searching_bar_chart(step_data: Dict[str, Any], algo_type: str = "Line
                     text="<b>HIGH ▲</b>",
                     showarrow=False,
                     yshift=-40 if high == low else -25,
-                    font=dict(color="#DC2626", size=12, family="Inter, sans-serif"),
+                    font=dict(color="#DC2626", size=12),
                 )
             )
         if mid is not None and 0 <= mid < n:
@@ -123,7 +123,7 @@ def create_searching_bar_chart(step_data: Dict[str, Any], algo_type: str = "Line
                     text="<b>MID ▲</b>",
                     showarrow=False,
                     yshift=-55 if (mid == low or mid == high) else -25,
-                    font=dict(color="#7C3AED", size=12, family="Inter, sans-serif"),
+                    font=dict(color="#7C3AED", size=12),
                 )
             )
 
@@ -131,21 +131,19 @@ def create_searching_bar_chart(step_data: Dict[str, Any], algo_type: str = "Line
     fig.update_layout(
         height=430,
         margin=dict(l=20, r=20, t=30, b=70),
-        font=dict(family="Inter, sans-serif", size=12),
+        font=dict(size=12),
         xaxis=dict(
             title="Array Index & Value",
             tickmode="linear",
             showgrid=False,
-            title_font=dict(family="Inter, sans-serif", size=13),
-            tickfont=dict(family="Inter, sans-serif"),
+            title_font=dict(size=13),
         ),
         yaxis=dict(
             title="Element Value",
             range=[0, max_val * 1.3],
             showgrid=True,
             gridcolor="#E2E8F0",
-            title_font=dict(family="Inter, sans-serif", size=13),
-            tickfont=dict(family="Inter, sans-serif"),
+            title_font=dict(size=13),
         ),
         plot_bgcolor="rgba(248, 250, 252, 0.8)",
         paper_bgcolor="rgba(0,0,0,0)",

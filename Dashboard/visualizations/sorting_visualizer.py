@@ -71,7 +71,7 @@ def create_sorting_bar_chart(step_data: Dict[str, Any]) -> go.Figure:
             marker_line_width=1.5,
             text=arr,
             textposition="outside",
-            textfont=dict(size=14, color="#0F172A", family="Inter, sans-serif"),
+            textfont=dict(size=14, color="#0F172A"),
             hovertemplate="Index: %{x}<br>Value: %{y}<extra></extra>",
         )
     )
@@ -84,20 +84,18 @@ def create_sorting_bar_chart(step_data: Dict[str, Any]) -> go.Figure:
             title="Array Index & Value",
             tickmode="linear",
             showgrid=False,
-            title_font=dict(family="Inter, sans-serif", size=13),
-            tickfont=dict(family="Inter, sans-serif"),
+            title_font=dict(size=13),
         ),
         yaxis=dict(
             title="Element Value",
             range=[0, max_val * 1.25],
             showgrid=True,
             gridcolor="#E2E8F0",
-            title_font=dict(family="Inter, sans-serif", size=13),
-            tickfont=dict(family="Inter, sans-serif"),
+            title_font=dict(size=13),
         ),
         plot_bgcolor="rgba(248, 250, 252, 0.8)",
         paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="Inter, sans-serif", size=12),
+        font=dict(size=12),
         showlegend=False,
     )
 

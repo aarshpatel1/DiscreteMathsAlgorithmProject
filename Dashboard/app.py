@@ -87,20 +87,10 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Custom CSS for polished academic UI with Inter font & crisp Light Theme
+# Custom CSS for polished academic UI & crisp Light Theme using Streamlit's default typography
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-    html, body, [class*="css"], [class*="st-"], .stApp {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    }
-    
-    h1, h2, h3, h4, h5, h6, .stMarkdown, .stText, .stButton button, .stRadio, .stSelectbox, .stSlider, .stNumberInput, .stTextInput, .metric-card, .metric-title, .metric-val, .metric-desc, .step-banner, .badge-tag {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    }
-
     /* Main container refinements */
     .main .block-container {
         padding-top: 1.8rem;
@@ -156,7 +146,6 @@ st.markdown(
         border-radius: 6px;
         font-size: 0.95rem;
         color: #0F172A;
-        font-family: 'Inter', -apple-system, sans-serif !important;
         margin-top: 0.6rem;
         margin-bottom: 0.8rem;
     }
@@ -166,7 +155,6 @@ st.markdown(
         border-radius: 8px;
         font-weight: 600;
         transition: all 0.2s;
-        font-family: 'Inter', sans-serif !important;
     }
     </style>
     """,
@@ -196,16 +184,18 @@ PAGES = [
     "🧩 Supplementary Algorithms",
 ]
 
-# Query param or session state navigation sync
-if "current_page" not in st.session_state:
-    st.session_state["current_page"] = PAGES[0]
+# Navigation state handling and callback
+def navigate_to(page_name: str) -> None:
+    """Callback to switch active module via the sidebar radio widget state."""
+    st.session_state["nav_selection"] = page_name
+    st.session_state["current_page"] = page_name
+
+if "nav_selection" not in st.session_state:
+    st.session_state["nav_selection"] = PAGES[0]
 
 selected_page = st.sidebar.radio(
     "Select Module",
     PAGES,
-    index=PAGES.index(st.session_state["current_page"])
-    if st.session_state["current_page"] in PAGES
-    else 0,
     key="nav_selection",
 )
 st.session_state["current_page"] = selected_page
@@ -274,20 +264,18 @@ if selected_page == "📊 Dashboard Overview":
             unsafe_allow_html=True,
         )
 
-    st.markdown("### 🚀 Quick Access to Visualizers")
-    qa_cols = st.columns(4)
-    if qa_cols[0].button("🔍 Searching Visualizer", use_container_width=True):
-        st.session_state["current_page"] = "🔍 Searching Algorithms"
-        st.rerun()
-    if qa_cols[1].button("🔃 Sorting Visualizer", use_container_width=True):
-        st.session_state["current_page"] = "🔃 Sorting Algorithms"
-        st.rerun()
-    if qa_cols[2].button("⚡ Greedy Algorithms", use_container_width=True):
-        st.session_state["current_page"] = "⚡ Greedy Algorithms"
-        st.rerun()
-    if qa_cols[3].button("🔬 Run Benchmarks", use_container_width=True):
-        st.session_state["current_page"] = "🔬 Benchmarking Engine"
-        st.rerun()
+    st.markdown("### 🚀 Quick Navigation Links")
+    qa_cols1 = st.columns(4)
+    qa_cols1[0].button("🔍 Searching Visualizer", on_click=navigate_to, args=("🔍 Searching Algorithms",), use_container_width=True, key="qa_nav_search")
+    qa_cols1[1].button("🔃 Sorting Visualizer", on_click=navigate_to, args=("🔃 Sorting Algorithms",), use_container_width=True, key="qa_nav_sort")
+    qa_cols1[2].button("🔤 String Matching", on_click=navigate_to, args=("🔤 String Matching",), use_container_width=True, key="qa_nav_string")
+    qa_cols1[3].button("⚡ Greedy Algorithms", on_click=navigate_to, args=("⚡ Greedy Algorithms",), use_container_width=True, key="qa_nav_greedy")
+
+    qa_cols2 = st.columns(4)
+    qa_cols2[0].button("📈 Complexity & Growth", on_click=navigate_to, args=("📈 Complexity & Growth",), use_container_width=True, key="qa_nav_growth")
+    qa_cols2[1].button("🔬 Empirical Benchmarks", on_click=navigate_to, args=("🔬 Benchmarking Engine",), use_container_width=True, key="qa_nav_bench")
+    qa_cols2[2].button("🧩 Supplementary Algos", on_click=navigate_to, args=("🧩 Supplementary Algorithms",), use_container_width=True, key="qa_nav_supp")
+    qa_cols2[3].button("📖 Algorithm Fundamentals", on_click=navigate_to, args=("📖 Algorithm Fundamentals",), use_container_width=True, key="qa_nav_fund")
 
     st.markdown("---")
 
@@ -1344,14 +1332,17 @@ elif selected_page == "🔬 Benchmarking Engine":
         st.subheader("Searching Algorithms Profiler (Linear vs Binary)")
         search_sizes = st.multiselect(
             "Array Sizes (n) for Search Profiling",
-            options=[100, 500, 1000, 5000, 10000, 25000, 50000],
+            options=[100, 500, 1000, 2000, 5000, 10000, 25000, 50000],
             default=[500, 2000, 10000, 25000],
         )
 
         if st.button("🚀 Run Searching Benchmark", use_container_width=True):
-            with st.spinner("Profiling search algorithms..."):
-                search_df = benchmark_searching_suite(sizes=sorted(search_sizes))
-                st.session_state["last_searching_bench"] = search_df
+            if not search_sizes:
+                st.error("Please select at least one array size.")
+            else:
+                with st.spinner("Profiling search algorithms..."):
+                    search_df = benchmark_searching_suite(sizes=sorted(search_sizes))
+                    st.session_state["last_searching_bench"] = search_df
 
         if "last_searching_bench" in st.session_state:
             search_df = st.session_state["last_searching_bench"]

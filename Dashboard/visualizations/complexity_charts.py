@@ -49,21 +49,16 @@ def create_growth_chart(
 
     fig.update_layout(
         title=f"Asymptotic Growth Rate Comparison (n = 1 to {max_n})",
-        font=dict(family="Inter, sans-serif"),
         xaxis=dict(
             title="Input Size (n)",
             showgrid=True,
             gridcolor="#E2E8F0",
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
         ),
         yaxis=dict(
             title="Operations f(n)",
             type="log" if log_scale else "linear",
             showgrid=True,
             gridcolor="#E2E8F0",
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
         ),
         hovermode="x unified",
         plot_bgcolor="rgba(248, 250, 252, 0.9)",
@@ -76,7 +71,6 @@ def create_growth_chart(
             bgcolor="rgba(255, 255, 255, 0.8)",
             bordercolor="#CBD5E1",
             borderwidth=1,
-            font=dict(family="Inter, sans-serif"),
         ),
         height=500,
         margin=dict(l=20, r=20, t=50, b=30),
@@ -105,22 +99,17 @@ def create_benchmark_time_chart(df: pd.DataFrame) -> go.Figure:
     )
 
     fig.update_layout(
-        font=dict(family="Inter, sans-serif"),
         plot_bgcolor="rgba(248, 250, 252, 0.9)",
         paper_bgcolor="rgba(0,0,0,0)",
         yaxis=dict(
             title="Execution Time (ms)",
             showgrid=True,
             gridcolor="#E2E8F0",
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
         ),
         xaxis=dict(
             title="Input Size (n)",
             showgrid=True,
             gridcolor="#E2E8F0",
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
         ),
         height=450,
         margin=dict(l=20, r=20, t=50, b=30),
@@ -144,19 +133,12 @@ def create_benchmark_ops_chart(df: pd.DataFrame, metric: str = "Comparisons") ->
     )
 
     fig.update_layout(
-        font=dict(family="Inter, sans-serif"),
         plot_bgcolor="rgba(248, 250, 252, 0.9)",
         paper_bgcolor="rgba(0,0,0,0)",
         yaxis=dict(
             title=f"{metric} Count",
             showgrid=True,
             gridcolor="#E2E8F0",
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
-        ),
-        xaxis=dict(
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
         ),
         height=420,
         margin=dict(l=20, r=20, t=50, b=30),
@@ -200,7 +182,7 @@ def create_activity_timeline_chart(
                 text=f"[{act['start']} -> {act['finish']}] ({status})",
                 textposition="inside",
                 insidetextanchor="middle",
-                textfont=dict(color="#FFFFFF", size=11, family="Inter, sans-serif"),
+                textfont=dict(color="#FFFFFF", size=11),
                 hovertemplate=f"Activity {act['id']}<br>Start: {act['start']}<br>Finish: {act['finish']}<br>Status: {status}<extra></extra>",
                 showlegend=False,
             )
@@ -208,20 +190,15 @@ def create_activity_timeline_chart(
 
     fig.update_layout(
         title="Activity Selection Schedule Timeline",
-        font=dict(family="Inter, sans-serif"),
         xaxis=dict(
             title="Time Units",
             showgrid=True,
             gridcolor="#E2E8F0",
             dtick=1,
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
         ),
         yaxis=dict(
             title="Activities",
             autorange="reversed",
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
         ),
         height=380,
         plot_bgcolor="rgba(248, 250, 252, 0.9)",
@@ -289,7 +266,7 @@ def create_cashier_bar_chart(
             marker=dict(color=colors, line=dict(color="#1E293B", width=1.5)),
             text=[f"{c} coins<br>({s})" if c > 0 else "0" for c, s in zip(counts, subtotals)],
             textposition="outside",
-            textfont=dict(family="Inter, sans-serif", size=13, color="#0F172A"),
+            textfont=dict(size=13, color="#0F172A"),
             hovertemplate="Denomination: %{x}<br>Count: %{y}<extra></extra>",
         )
     )
@@ -297,12 +274,9 @@ def create_cashier_bar_chart(
     max_c = max(counts) if counts and max(counts) > 0 else 1
     fig.update_layout(
         title="Coins / Units Selected per Denomination",
-        font=dict(family="Inter, sans-serif"),
         xaxis=dict(
             title="Denomination",
             showgrid=False,
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
         ),
         yaxis=dict(
             title="Number of Coins",
@@ -310,8 +284,6 @@ def create_cashier_bar_chart(
             showgrid=True,
             gridcolor="#E2E8F0",
             dtick=1,
-            title_font=dict(family="Inter, sans-serif"),
-            tickfont=dict(family="Inter, sans-serif"),
         ),
         plot_bgcolor="rgba(248, 250, 252, 0.9)",
         paper_bgcolor="rgba(0,0,0,0)",
